@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Engefibra.Data.Models.VeiculoManutencaoHistorico>
+
+@{
+    ViewBag.Title = "Histórico de manutenções";
+}
+
+<h2>Utilização de veiculos da Empresa</h2>
+<p>Consulta das manutenções já confirmadas pela empresa</p>
+
+<table class="table table-bordered table-striped table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VeiculoId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KmAtual)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManutencaoRealizada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataConfirmacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataNotificacao)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VeiculoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KmAtual)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManutencaoRealizada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataConfirmacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNotificacao)
+            </td>
+            <td>
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

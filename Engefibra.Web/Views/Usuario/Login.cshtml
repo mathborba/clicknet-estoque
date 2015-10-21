@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Bem-vindo(a)";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".frmLogin").submit(function (e) {
+            e.preventDefault();
+
+            var $btn = $("#btn-entrar");
+            $btn.button('loading');
+
+            $.toast({
+                text: "Aguarde um instante... ",
+                heading: 'Autenticação',
+                icon: 'info',
+                showHideTransition: 'fade',
+                allowToastClose: true,
+                hideAfter: 3000,
+                stack: 5,
+                position: 'top-right',
+                textAlign: 'left'
+            });
+
+            $.ajax({
+                url: '@Url.Action("LogOn", "Usuario")',
+                data: { User: $("#User").val(), Pass: $("#Pass").val() },
+                type: 'POST',
+                success: function (data) {
+
+                    $.toast().reset('all');
+
+                    if (data.sucesso) {
+                        $.toast({
+                            text: "Bem-vindo(a) a Engefibra!",
+                            heading: 'Autenticado',
+                            icon: 'success',
+                            showHideTransition: 'fade',
+                            allowToastClose: true,
+                            hideAfter: 3000,
+                            stack: 5,
+                            position: 'top-right',
+                            textAlign: 'left'
+                        });
+
+                        setTimeout(function () {
+                            location.href = '@Url.Action("Index","Home")';
+                        }, 700);
+                    } else {
+                        $.toast({
+                            text: "Credenciais incorretas! Por favor, tente novamente!", 
+                            heading: 'Erro', 
+                            icon: 'error', 
+                            showHideTransition: 'fade',
+                            allowToastClose: true, 
+                            hideAfter: 3000,
+                            stack: 5,
+                            position: 'top-right',
+                            textAlign: 'left'
+                        });
+                    }
+
+                    $btn.button('reset');
+                }, error: function () {
+
+                    $.toast({
+                        text: "Ocorreu um problema de conexão com o servidor!",
+                        heading: 'Erro',
+                        icon: 'error',
+                        showHideTransition: 'fade',
+                        allowToastClose: true,
+                        hideAfter: 3000,
+                        stack: 5,
+                        position: 'top-right',
+                        textAlign: 'left'
+                    });
+
+                    $btn.button('reset');
+                }
+            });
+            return false;
+        });
+    })
+</script>
+
+<div class="col-md-6 col-md-offset-3" style="margin-top: 15px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>Entrar no sistema</strong></h3>
+        </div>
+        <div class="panel-body">
+            <form role="form" id="frm-autenticacao" class="frmLogin">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="User" id="User" placeholder="Usuário">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="Pass" id="Pass" placeholder="Senha">
+                </div>
+                <button id="btn-entrar" type="submit" class="btn btn-success pull-right" data-loading-text="Entrando...">Entrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

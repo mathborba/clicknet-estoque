@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Engefibra.Data.Models.Obra>
+
+@{
+    ViewBag.Title = "Obras";
+}
+
+<h2>Obras</h2>
+<p>Consulta/cadastro de Obras da empresa e seu estado atual</p>
+
+<p>
+    @Html.ActionLink("Nova obra", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            Situação
+        </th>
+        <th>
+            Grupo Notificação
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Endereco)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cep)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCriacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataAlteracao)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ObraStatus.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notificacao.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Endereco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cep)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cidade)
+            </td>
+            <td>
+                @item.DataCriacao.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @item.DataAlteracao.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

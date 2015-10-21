@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Engefibra.Data.Models.Estoque>
+
+@{
+    ViewBag.Title = "Cadastro de Estoques";
+}
+
+<h2>Estoques</h2>
+<p>Cadastro de estoques a serem controlados nas movimentações.</p>
+
+<p>
+    @Html.ActionLink("Novo registro", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

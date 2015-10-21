@@ -1,0 +1,13 @@
+﻿.body-content {
+    margin-top: 60px;
+}
+
+.input-validation-error {
+    border: 1px solid #F15050;
+}
+
+.field-validation-error {
+    background: #F15050;
+    color: white;
+    padding: 6px;
+}

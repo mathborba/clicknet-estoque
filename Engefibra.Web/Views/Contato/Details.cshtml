@@ -1,0 +1,78 @@
+﻿@model Engefibra.Data.Models.Contato
+@{
+    ViewBag.Title = "Contato - Detalhes " + Model.Nome;
+}
+
+<h3>Detalhes do Contato - @Model.Nome, Ref.: @Model.Referencia</h3>
+<div>
+    <div class="alert alert-success">
+        Não se esqueça de deixar todas anotações salvas sobre este contato no campo "Observações". Pode ser útil para outra pessoa ou para você mesmo no futuro! :)
+    </div>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Referencia)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Referencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            <a href="mailto:@Model.Email">@Model.Email</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataCriacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataCriacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataAlteracao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataAlteracao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "AddOrUpdate", new { id = Model.Id }, new { @class = "btn btn-primary" }) | @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default" })
+</p>

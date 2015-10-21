@@ -1,0 +1,66 @@
+﻿@model Engefibra.Data.Models.NotificacaoAgendamento
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>NotificacaoAgendamento</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NotificacaoId, "NotificacaoId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("NotificacaoId", String.Empty)
+                @Html.ValidationMessageFor(model => model.NotificacaoId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AgendamentoHoras, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AgendamentoHoras)
+                @Html.ValidationMessageFor(model => model.AgendamentoHoras)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AgendamentoTempo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AgendamentoTempo)
+                @Html.ValidationMessageFor(model => model.AgendamentoTempo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Enviado, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Enviado)
+                @Html.ValidationMessageFor(model => model.Enviado)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

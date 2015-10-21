@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Engefibra.Data.Models.Produto>
+@{
+    ViewBag.Title = "Produtos";
+}
+
+<h2>Produtos</h2>
+<p>Cadastre os produtos da empresa.</p>
+
+<p>
+    @Html.ActionLink("Novo registro", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Marca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fornecedor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fornecedor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

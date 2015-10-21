@@ -1,0 +1,50 @@
+﻿@model Engefibra.Data.Models.NotificacaoAgendamento
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>NotificacaoAgendamento</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Notificacao.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notificacao.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AgendamentoHoras)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgendamentoHoras)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AgendamentoTempo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgendamentoTempo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Enviado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Enviado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

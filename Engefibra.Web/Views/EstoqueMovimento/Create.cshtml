@@ -1,0 +1,65 @@
+﻿@model Engefibra.Data.Models.EstoqueMovimento
+@{
+    ViewBag.Title = "Movimentação de Estoque";
+}
+<h2>Movimentação de Estoque</h2>
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Inserir uma movimentação de estoque</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EstoqueId, "EstoqueId", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("EstoqueId", String.Empty)
+                        @Html.ValidationMessageFor(model => model.EstoqueId)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MovimentoTipo, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="radio" name="MovimentoTipo" value="-1">Saida | 
+                        <input type="radio" name="MovimentoTipo" value="1">Entrada
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProdutoId, "ProdutoId", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ProdutoId", String.Empty)
+                        @Html.ValidationMessageFor(model => model.ProdutoId)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Quantidade, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Quantidade)
+                        @Html.ValidationMessageFor(model => model.Quantidade)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-10 col-md-2">
+                <input type="submit" value="Inserir movimentação" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="well">
+    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

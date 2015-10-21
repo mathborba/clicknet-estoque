@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Engefibra.Data.Models.NotificacaoAgendamento>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Notificacao.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AgendamentoHoras)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AgendamentoTempo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enviado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notificacao.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AgendamentoHoras)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AgendamentoTempo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Enviado)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

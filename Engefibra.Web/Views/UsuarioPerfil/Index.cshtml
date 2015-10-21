@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Engefibra.Data.Models.UsuarioPerfil>
+
+@{
+    ViewBag.Title = "Vinculo de Usuário x Perfis";
+}
+
+<h2>Perfis de usuário</h2>
+<p>Atribua permissões para os usuários do sistema nesta ferramenta.</p>
+
+<p>
+    @Html.ActionLink("Novo registro", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Perfil.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario.Pessoa.Nome)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Perfil.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Pessoa.Nome)
+            </td>
+            <td>
+                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

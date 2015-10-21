@@ -1,0 +1,44 @@
+﻿@model Engefibra.Data.Models.UsuarioPerfil
+@{
+    ViewBag.Title = "Vincular Perfil";
+}
+<h2>Usuário x Perfil</h2>
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Vincular</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UsuarioId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("UsuarioId", String.Empty)
+                @Html.ValidationMessageFor(model => model.UsuarioId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PerfilId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PerfilId", String.Empty)
+                @Html.ValidationMessageFor(model => model.PerfilId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-10 col-md-2">
+                <input type="submit" value="Atribuir" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="well">
+    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

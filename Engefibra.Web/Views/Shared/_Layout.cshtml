@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engefibra Controle App - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Engefibra Controle", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Cadastros <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Insumo</li>
+                            <li><a href="~/Contato">Contatos</a></li>
+                            <li><a href="~/Estoque">Estoque</a></li>
+                            <li><a href="~/Notificacao">Notificações</a></li>
+                            <li><a href="~/Produto">Produtos</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Pessoal</li>
+                            <li><a href="~/Pessoa">Pessoas</a></li>
+                            <li><a href="~/Usuario">Usuários</a></li>
+                            <li><a href="~/UsuarioPerfil">Perfis de usuário</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="~/EstoqueMovimento">Movimentação de Estoque</a></li>
+                    <li><a href="~/Obra">Obras</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Veiculos <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Insumo</li>
+                            <li><a href="~/Veiculo">Veiculos</a></li>
+                            <li><a href="~/VeiculoAlerta">Alertas</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Uso do veiculo</li>
+                            <li><a href="~/VeiculoUtilizacao">Utilização de veiculo</a></li>
+                            <li><a href="~/VeiculoManutencaoHistorico">Histórico de Manutenção</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Relatórios <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Produtos</li>
+                            <li><a href="~/ProdutoRelatorio/Cadastros">Produtos cadastrados</a></li>
+                            <li><a href="~/ProdutoRelatorio/EmFalta">Produtos em falta</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Obras</li>
+                            <li><a href="~/ObraRelatorio/Posicao">Posição de obras</a></li>
+                            <li><a href="~/ObraRelatorio/Agendamento">Obras agendadas</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Veiculos</li>
+                            <li><a href="~/VeiculoRelatorio/Cadastros">Veiculos cadastrados</a></li>
+                            <li><a href="~/VeiculoRelatorio/Utilizacao">Utilização de veiculos</a></li>
+                            <li><a href="~/VeiculoRelatorio/Manutencao">Manutenção</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <strong>Olá, @Engefibra.Web.Framework.Session.SessionManager.Current.Name</strong>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Minha conta</li>
+                            <li><a href="~/Usuario/MeusDados">Dados</a></li>
+                            <li><a href="~/Usuario/AlterarSenha">Alterar Senha</a></li>
+                            <li><a href="~/Usuario/EmailDiretoria">E-mail diretoria</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Opções</li>
+                            <li><a href="@Url.Action("Logout","Usuario")"><b>Sair do sistema</b></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - <b>Engefibra</b> - Controle de Recursos - Todos os direitos reservados contra cópias ou reproduções parciais.</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿@model Engefibra.Data.Models.Veiculo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Veiculo</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VeiculoAlerta.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VeiculoAlerta.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnoFabricacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnoFabricacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Marca)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Marca)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KmInicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KmInicial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlertarManutencao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlertarManutencao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlertarTrocaOleo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlertarTrocaOleo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

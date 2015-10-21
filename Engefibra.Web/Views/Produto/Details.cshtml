@@ -1,74 +1,91 @@
-﻿@model Engefibra.Data.Models.Produto
+﻿@model Engefibra.Web.ViewModels.ProdutoViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Produto.Nome;
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>Produto</h4>
-	<hr />
+    <h4>Detalhes do Produto</h4>
+    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Nome)
+            @Html.DisplayNameFor(model => model.Produto.Nome)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Nome)
+            @Html.DisplayFor(model => model.Produto.Nome)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Marca)
+            @Html.DisplayNameFor(model => model.Produto.Marca)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Marca)
+            @Html.DisplayFor(model => model.Produto.Marca)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Fornecedor)
+            @Html.DisplayNameFor(model => model.Produto.Fornecedor)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Fornecedor)
+            @Html.DisplayFor(model => model.Produto.Fornecedor)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Observacao)
+            @Html.DisplayNameFor(model => model.Produto.Observacao)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Observacao)
+            @Html.DisplayFor(model => model.Produto.Observacao)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Ativo)
+            @Html.DisplayNameFor(model => model.Produto.Ativo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Ativo)
+            @Html.DisplayFor(model => model.Produto.Ativo)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DataCriacao)
+            @Html.DisplayNameFor(model => model.Produto.DataCriacao)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DataCriacao)
+            @Html.DisplayFor(model => model.Produto.DataCriacao)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DataAlteracao)
+            @Html.DisplayNameFor(model => model.Produto.DataAlteracao)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DataAlteracao)
+            @Html.DisplayFor(model => model.Produto.DataAlteracao)
+        </dd>
+        <dt>
+            Saldo atual do produto
+        </dt>
+        <dd>
+            @if (Model.SaldoProduto > 20)
+            {
+                <div class="alert alert-success">
+                    Saldo atual: @Model.SaldoProduto unidades
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    Saldo atual: @Model.SaldoProduto unidades (Cuidado)
+                </div>
+            }
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Produto.Id }, new { @class = "btn btn-success" }) |
+    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
 </p>

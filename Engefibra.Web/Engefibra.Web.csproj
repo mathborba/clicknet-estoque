@@ -145,6 +145,9 @@
     <Compile Include="Controllers\NotificacaoAgendamentoController.cs" />
     <Compile Include="Controllers\NotificacaoController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
+    <Compile Include="Controllers\PessoaContatoController.cs" />
+    <Compile Include="Controllers\PessoaController.cs" />
+    <Compile Include="Controllers\PessoaEnderecoController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\UsuarioPerfilController.cs" />
@@ -159,6 +162,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ProdutoViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +227,6 @@
     <Content Include="Views\Produto\Create.cshtml" />
     <Content Include="Views\Produto\Delete.cshtml" />
     <Content Include="Views\Produto\Details.cshtml" />
-    <Content Include="Views\Produto\Edit.cshtml" />
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Views\Usuario\Create.cshtml" />
     <Content Include="Views\Usuario\Delete.cshtml" />
@@ -256,11 +259,16 @@
     <Content Include="Views\EstoqueMovimento\Create.cshtml" />
     <Content Include="Views\EstoqueMovimento\Delete.cshtml" />
     <Content Include="Views\EstoqueMovimento\Details.cshtml" />
-    <Content Include="Views\EstoqueMovimento\Edit.cshtml" />
     <Content Include="Views\EstoqueMovimento\Index.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Usuario\Login.cshtml" />
     <Content Include="Views\Home\SemPermissao.cshtml" />
+    <Content Include="Views\Pessoa\Create.cshtml" />
+    <Content Include="Views\Pessoa\Index.cshtml" />
+    <Content Include="Views\PessoaContato\Create.cshtml" />
+    <Content Include="Views\PessoaContato\Index.cshtml" />
+    <Content Include="Views\PessoaEndereco\Create.cshtml" />
+    <Content Include="Views\PessoaEndereco\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engefibra.Bll\Engefibra.Bll.csproj">

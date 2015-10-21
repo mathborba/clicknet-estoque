@@ -56,9 +56,9 @@ namespace Engefibra.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id = 0)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

@@ -1,17 +1,15 @@
 ﻿@model Engefibra.Data.Models.Produto
-
 @{
-    ViewBag.Title = "Novo produto";
+    ViewBag.Title = (Model.Id > 0 ? "Editar produto" : "Novo Produto");
 }
-
-<h2>Produto</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Novo</h4>
+        <h4>Produto</h4>
         <hr />
         @Html.ValidationSummary(true)
 
@@ -65,7 +63,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-10 col-md-2">
-                <input type="submit" value="Cadastrar" class="btn btn-default" />
+                <input type="submit" value="Salvar" class="btn btn-default" />
             </div>
         </div>
     </div>

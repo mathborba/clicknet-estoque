@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Engefibra.Data.Models.Produto>
+﻿@model List<Engefibra.Web.ViewModels.ProdutoViewModel>
 @{
     ViewBag.Title = "Produtos";
 }
@@ -7,22 +7,28 @@
 <p>Cadastre os produtos da empresa.</p>
 
 <p>
-    @Html.ActionLink("Novo registro", "Create", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Novo registro", "AddOrUpdate", null, new { @class = "btn btn-success" })
 </p>
 
 <table class="table table-bordered table-striped table-responsive">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Nome)
+           Nome
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Marca)
+           Marca
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fornecedor)
+          Fornecedor
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ativo)
+          Código
+        </th>
+        <th>
+          Saldo Atual
+        </th>
+        <th>
+          Ativo
         </th>
         <th></th>
     </tr>
@@ -31,21 +37,27 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nome)
+                @item.Produto.Nome
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Marca)
+                @item.Produto.Marca
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Fornecedor)
+                @item.Produto.Fornecedor
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ativo)
+                @item.Produto.CodFornecedor
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+                @item.Produto.CodFornecedor
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Produto.Ativo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "AddOrUpdate", new { id = item.Produto.Id }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Produto.Id }) |
+                @Html.ActionLink("Remover", "Delete", new { id = item.Produto.Id })
             </td>
         </tr>
     }

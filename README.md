@@ -1,19 +1,28 @@
-# clicknet-estoque
-Sistema de controle simples de estoque e utilização de frota de veiculos
+# engefibra-controle
 
-# Funcionalidades
+Simple control of works, people, documents and vehicles of a small company.
+Technonology: ASP.NET MVC5, EF 6.0x Code First, HangFire.io, Highcharts
 
-- Cadastro de Produtos
-- Cadastro de Produtos Compostos
-- Consulta E/S de Produtos
-- Cadastro de veiculos
-- Cadastro de utilização dos veiculos
-- Alertas sobre manutenção de veiculos
-- Alertas sobre falta de estoque
-- Relatório de cadastro de produtos e veiculos
-- Relatório de utilização de veiculo da frota
-- Cadastro de Usuários
-- Perfis de usuários
-- Cadastro de Alertas
+# Modules
 
-Projeto está em sua versão beta, e será disponibilizado ao publico para estudos.
+- Dashboard module
+- Products Module
+- Products Composition Module
+- Stock Movimentation Module
+- Vehicles Module
+- Vehicles Use Module
+- User Module
+- User Role Module
+- Notification Module
+- Notification about vehicles status
+- Notification about stock faults
+- Notification about workers
+- Reports of each module (Export to Excel,CSV,PDF)
+
+# Template
+
+- Bootstrap theme
+- Material Design based (Paper from http://bootwatch.com)
+- Responsive
+
+If you want to use, feel free to help and contribute with this project

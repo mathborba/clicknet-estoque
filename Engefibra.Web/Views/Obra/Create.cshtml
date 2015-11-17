@@ -1,121 +1,229 @@
 ﻿@model Engefibra.Data.Models.Obra
-
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = Model.Id > 0 ? "Atualização da Obra: " + Model.Nome + "/ Cliente: " + Model.Cliente.Nome : "Cadastro de Obra";
 }
+<script type="text/javascript">
+    // Função para exibição/esconder DataAgendamento
+    function exibicaoDataAgendamento(valorSelect) {
+        if (valorSelect == 1) {
+            $(".dataAgendamento").fadeIn();
+        } else {
+            $(".dataAgendamento").fadeOut();
+        }
+    };
 
-<h2>Create</h2>
+    $(function () {
+        exibicaoDataAgendamento($("#ObraStatusId option:selected").val());
+        // Atribuir a mudança do dropdown a função :)
+        $("#ObraStatusId").change(function (e) {
+            var selecionado = $("#ObraStatusId option:selected").val();
+            exibicaoDataAgendamento(selecionado);
+        });
 
+        // Consulta de CEP automatizada
+        $("#Cep").keyup(function (e) {
+            console.log($(this).val().length);
+            var urlCepService = "http://cep.republicavirtual.com.br/web_cep.php";
+            if ($(this).val().length == 8) {
+                var cepValue = $(this).val();
+                $.ajax({
+                    url: urlCepService,
+                    data: { cep: cepValue, formato: "json" },
+                    type: 'GET',
+                    success: function (data) {
+                        if (data.resultado == 1) {
+                            $("#Endereco").val(data.tipo_logradouro + " " + data.logradouro + ", " + data.bairro);
+                            $("#Cidade").val(data.cidade + ", " + data.uf);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+<h2>Atualização obra</h2>
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#obra" aria-controls="obra" role="tab" data-toggle="tab">Obra</a>
+        </li>
+        <li role="presentation">
+            <a href="#atvdiaria" aria-controls="atvdiaria" role="tab" data-toggle="tab">Atividade Diaria</a>
+        </li>
+        <li role="presentation">
+            <a href="#grampeamento" aria-controls="grampeamento" role="tab" data-toggle="tab">Grampeamento</a>
+        </li>
+        <li role="presentation">
+            <a href="#bobinadiaria" aria-controls="bobinadiaria" role="tab" data-toggle="tab">Bobina Diaria</a>
+        </li>
+        <li role="presentation">
+            <a href="#atenuacao" aria-controls="atenuacao" role="tab" data-toggle="tab">Atenuação</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="obra">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Obra</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+                <div class="form-horizontal well">
+                    <h4>@ViewBag.Title</h4>
+                    <a class="btn btn-primary btnExportarObra" href="~/Obra/Export/?id=@Model.Id" target="_blank">Exportar Obra para XLS</a>
+                    <hr />
+                    @Html.ValidationSummary(true)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nome)
-                @Html.ValidationMessageFor(model => model.Nome)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Nome)
+                            @Html.ValidationMessageFor(model => model.Nome)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EncarregadoId, "Encarregado", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("EncarregadoId", String.Empty)
+                            @Html.ValidationMessageFor(model => model.EncarregadoId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @if (Model.Id == 0)
+                        {
+                            @Html.LabelFor(model => model.ClienteId, "Cliente", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("ClienteId", String.Empty)
+                                @Html.ValidationMessageFor(model => model.ClienteId)
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="control-label col-md-2"><strong>Cliente:</strong></p>
+                            <div class="col-md-10">
+                                @Model.Cliente.Nome
+                            </div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cep, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Cep, new { @MaxLength = 8 })
+                            @Html.ValidationMessageFor(model => model.Cep)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Endereco, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Endereco)
+                            @Html.ValidationMessageFor(model => model.Endereco)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cidade, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Cidade)
+                            @Html.ValidationMessageFor(model => model.Cidade)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ObraStatusId, "ObraStatusId", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("ObraStatusId", String.Empty)
+                            @Html.ValidationMessageFor(model => model.ObraStatusId)
+                        </div>
+                    </div>
+
+                    <div class="form-group dataAgendamento" style="display: none;">
+                        @Html.LabelFor(model => model.DataAgendamento, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DataAgendamento)
+                            @Html.ValidationMessageFor(model => model.DataAgendamento)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Observacao, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Observacao, new { @style = "width: 100%; height: 150px;" })
+                            @Html.ValidationMessageFor(model => model.Observacao)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Pendencias, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Pendencias, new { @style = "width: 100%; height: 150px;" })
+                            @Html.ValidationMessageFor(model => model.Pendencias)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NotificacaoId, "Grupo de Notificação", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("NotificacaoId", String.Empty)
+                            @Html.ValidationMessageFor(model => model.NotificacaoId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Ativo, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Ativo)
+                            @Html.ValidationMessageFor(model => model.Ativo)
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.DataCriacao)
+                    @Html.HiddenFor(model => model.DataAlteracao)
+                    @Html.HiddenFor(model => model.UsuarioCriacao)
+                    @Html.HiddenFor(model => model.UsuarioAlteracao)
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Salvar" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div role="tabpanel" class="tab-pane" id="atvdiaria">
+            <div class="well">
+                <div class="alert alert-warning">
+                    <h4>Funcionalidade em desenvolvimento</h4>
+                    <p>Aguarde para utilizar a ferramenta.</p>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Endereco, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Endereco)
-                @Html.ValidationMessageFor(model => model.Endereco)
+        <div role="tabpanel" class="tab-pane" id="grampeamento">
+            <div class="well">
+                <div class="alert alert-warning">
+                    <h4>Funcionalidade em desenvolvimento</h4>
+                    <p>Aguarde para utilizar a ferramenta.</p>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cep, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cep)
-                @Html.ValidationMessageFor(model => model.Cep)
+        <div role="tabpanel" class="tab-pane" id="bobinadiaria">
+            <div class="well">
+                <div class="alert alert-warning">
+                    <h4>Funcionalidade em desenvolvimento</h4>
+                    <p>Aguarde para utilizar a ferramenta.</p>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cidade, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cidade)
-                @Html.ValidationMessageFor(model => model.Cidade)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ObraStatusId, "ObraStatusId", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ObraStatusId", String.Empty)
-                @Html.ValidationMessageFor(model => model.ObraStatusId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Observacao, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Observacao)
-                @Html.ValidationMessageFor(model => model.Observacao)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Pendencias, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Pendencias)
-                @Html.ValidationMessageFor(model => model.Pendencias)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NotificacaoId, "NotificacaoId", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("NotificacaoId", String.Empty)
-                @Html.ValidationMessageFor(model => model.NotificacaoId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Ativo, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Ativo)
-                @Html.ValidationMessageFor(model => model.Ativo)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DataCriacao, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataCriacao)
-                @Html.ValidationMessageFor(model => model.DataCriacao)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DataAlteracao, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataAlteracao)
-                @Html.ValidationMessageFor(model => model.DataAlteracao)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+        <div role="tabpanel" class="tab-pane" id="atenuacao">
+            <div class="well">
+                <div class="alert alert-warning">
+                    <h4>Funcionalidade em desenvolvimento</h4>
+                    <p>Aguarde para utilizar a ferramenta.</p>
+                </div>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<div class="well">
+    @Html.ActionLink("Voltar para Obras", "Index", null, new { @class = "btn btn-primary" })
+</div>

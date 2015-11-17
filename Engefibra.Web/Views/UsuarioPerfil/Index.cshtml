@@ -4,6 +4,12 @@
     ViewBag.Title = "Vinculo de Usuário x Perfis";
 }
 
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-table.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-locale-all.js"></script>
+}
+
 <h2>Perfis de usuário</h2>
 <p>Atribua permissões para os usuários do sistema nesta ferramenta.</p>
 
@@ -11,29 +17,32 @@
     @Html.ActionLink("Novo registro", "Create", null, new { @class = "btn btn-success" })
 </p>
 
-<table class="table table-bordered table-striped table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Perfil.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario.Pessoa.Nome)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-striped table-responsive" data-toggle="table" data-show-columns="true" data-search="true" data-show-refresh="true" data-show-toggle="true" data-pagination="true" data-show-filter="true">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Perfil.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.Pessoa.Nome)
-            </td>
-            <td>
-                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
-            </td>
+            <th data-field="perfil" data-sortable="true">
+                Perfil atribuido
+            </th>
+            <th data-field="nome" data-sortable="true">
+                Usuário
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Perfil.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.Pessoa.Nome)
+                </td>
+                <td>
+                    @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

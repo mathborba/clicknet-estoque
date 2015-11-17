@@ -29,6 +29,8 @@ namespace Engefibra.Data.Models
         public bool ObraNotificacao { get; set; }
         [Display(Name = "Notificar Veiculo")]
         public bool VeiculoNotificacao { get; set; }
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
         // Novos campos
         [Display(Name = "Usuário Criação")]
         public int UsuarioCriacao { get; set; }

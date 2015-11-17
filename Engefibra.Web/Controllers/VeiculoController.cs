@@ -15,21 +15,16 @@ namespace Engefibra.Web.Controllers
     {
         private AppContext db = new AppContext();
 
-        // GET: /Veiculo/
         public ActionResult Index()
         {
             var veiculo = db.Veiculo.Include(v => v.VeiculoAlerta);
             return View(veiculo.ToList());
         }
 
-        // GET: /Veiculo/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Veiculo veiculo = db.Veiculo.Find(id);
+            Veiculo veiculo = Bll.Veiculo.Get(id);
+
             if (veiculo == null)
             {
                 return HttpNotFound();
@@ -37,87 +32,74 @@ namespace Engefibra.Web.Controllers
             return View(veiculo);
         }
 
-        // GET: /Veiculo/Create
-        public ActionResult Create()
+        public ActionResult AddOrUpdate(int id = 0)
         {
-            ViewBag.VeiculoAlertaId = new SelectList(db.VeiculoAlertas, "Id", "Nome");
-            return View();
+            var model = new Data.Models.Veiculo();
+
+            if (id > 0)
+            {
+                model = Bll.Veiculo.Get(id);
+            }
+
+            ViewBag.VeiculoAlertaId = new SelectList(db.VeiculoAlertas, "Id", "Nome", model.VeiculoAlertaId);
+            return View("Create", model);
         }
 
-        // POST: /Veiculo/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,Modelo,AnoFabricacao,Cor,Marca,KmInicial,AlertarManutencao,AlertarTrocaOleo,VeiculoAlertaId")] Veiculo veiculo)
+        public ActionResult AddOrUpdate([Bind(Include="Id,Placa,Modelo,AnoFabricacao,Cor,Marca,KmInicial,Observacao,AlertarManutencao,AlertarTrocaOleo,VeiculoAlertaId")] Veiculo veiculo)
         {
-            if (ModelState.IsValid)
+            if (veiculo.Id > 0)
             {
-                db.Veiculo.Add(veiculo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var utilizacaoAtiva = db.VeiculoUtilizacao.Where(x => x.VeiculoId == veiculo.Id && x.VeiculoUtilizacaoStatusId != 3).Count();
+
+                if (utilizacaoAtiva > 0)
+                {
+                    ModelState.AddModelError("Placa", "Você não deletar um veiculo que está sendo utilizado por alguem.");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(veiculo).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Veiculo.Add(veiculo);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.VeiculoAlertaId = new SelectList(db.VeiculoAlertas, "Id", "Nome", veiculo.VeiculoAlertaId);
-            return View(veiculo);
+            return View("Create", veiculo);
         }
 
-        // GET: /Veiculo/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Veiculo veiculo = db.Veiculo.Find(id);
+            Veiculo veiculo = Bll.Veiculo.Get(id);
+
             if (veiculo == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.VeiculoAlertaId = new SelectList(db.VeiculoAlertas, "Id", "Nome", veiculo.VeiculoAlertaId);
+
             return View(veiculo);
         }
 
-        // POST: /Veiculo/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,Modelo,AnoFabricacao,Cor,Marca,KmInicial,AlertarManutencao,AlertarTrocaOleo,VeiculoAlertaId")] Veiculo veiculo)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(veiculo).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.VeiculoAlertaId = new SelectList(db.VeiculoAlertas, "Id", "Nome", veiculo.VeiculoAlertaId);
-            return View(veiculo);
-        }
-
-        // GET: /Veiculo/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Veiculo veiculo = db.Veiculo.Find(id);
-            if (veiculo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(veiculo);
-        }
-
-        // POST: /Veiculo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Veiculo veiculo = db.Veiculo.Find(id);
+
             db.Veiculo.Remove(veiculo);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

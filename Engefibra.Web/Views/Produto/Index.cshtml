@@ -3,63 +3,44 @@
     ViewBag.Title = "Produtos";
 }
 
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-table.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-locale-all.js"></script>
+}
+
 <h2>Produtos</h2>
 <p>Cadastre os produtos da empresa.</p>
+<p>@Html.ActionLink("Novo registro", "AddOrUpdate", null, new { @class = "btn btn-success" })</p>
 
-<p>
-    @Html.ActionLink("Novo registro", "AddOrUpdate", null, new { @class = "btn btn-success" })
-</p>
-
-<table class="table table-bordered table-striped table-responsive">
-    <tr>
-        <th>
-           Nome
-        </th>
-        <th>
-           Marca
-        </th>
-        <th>
-          Fornecedor
-        </th>
-        <th>
-          Código
-        </th>
-        <th>
-          Saldo Atual
-        </th>
-        <th>
-          Ativo
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-striped table-responsive" data-toggle="table" data-show-columns="true" data-search="true" data-show-refresh="true" data-show-toggle="true" data-pagination="true" data-show-filter="true">
+    <thead>
         <tr>
-            <td>
-                @item.Produto.Nome
-            </td>
-            <td>
-                @item.Produto.Marca
-            </td>
-            <td>
-                @item.Produto.Fornecedor
-            </td>
-            <td>
-                @item.Produto.CodFornecedor
-            </td>
-            <td>
-                @item.Produto.CodFornecedor
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Produto.Ativo)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "AddOrUpdate", new { id = item.Produto.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Produto.Id }) |
-                @Html.ActionLink("Remover", "Delete", new { id = item.Produto.Id })
-            </td>
+            <th data-field="nome" data-sortable="true">Nome</th>
+            <th data-field="marca" data-sortable="true">Marca</th>
+            <th data-field="fornecedor" data-sortable="true">Fornecedor</th>
+            <th data-field="codigo" data-sortable="true">Código</th>
+            <th data-field="saldoatual" data-sortable="true">Saldo Atual</th>
+            <th data-field="ativo" data-sortable="true">Ativo</th>
+            <th data-field="acoes" data-sortable="true">Açoes</th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Produto.Nome</td>
+                <td>@item.Produto.Marca</td>
+                <td>@item.Produto.Fornecedor</td>
+                <td>@item.Produto.CodFornecedor</td>
+                <td>@item.SaldoProduto</td>
+                <td>@Html.DisplayFor(model => item.Produto.Ativo)</td>
+                <td>
+                    @Html.ActionLink("Editar", "AddOrUpdate", new { id = item.Produto.Id }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.Produto.Id }) |
+                    @Html.ActionLink("Remover", "Delete", new { id = item.Produto.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

@@ -1,54 +1,59 @@
 ﻿@model IEnumerable<Engefibra.Data.Models.VeiculoUtilizacao>
 
 @{
-    ViewBag.Title = "Registro de utilização de veiculos";
+    ViewBag.Title = "Utilização de veiculos";
 }
 
-<h2>Utilização de veiculos da Empresa</h2>
-<p>Registro e Consulta da utilização do patrimonio da empresa</p>
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-table.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-locale-all.js"></script>
+}
 
+<h2>@ViewBag.Title</h2>
+<p>Histórico e abertura de utilização de veiculos</p>
 <p>
-    @Html.ActionLink("Novo Registro", "Create", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Nova utilização", "AddOrUpdate", null, new { @class = "btn btn-success" })
 </p>
-
-<table class="table table-bordered table-striped table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Veiculo.Modelo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NomeUtilizador)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KmFinal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataCriacao)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-hover" data-toggle="table" data-show-columns="true" data-search="true" data-show-refresh="true" data-show-toggle="true" data-pagination="true" data-show-filter="true">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Veiculo.Modelo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeUtilizador)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KmFinal)
-            </td>
-            <td>
-                @item.DataCriacao.ToString("dd/MM/yyyy")
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
-            </td>
+            <th data-field="utilizador" data-sortable="true">Utilizador</th>
+            <th data-field="veiculo" data-sortable="true">Veiculo</th>
+            <th data-field="situacao" data-sortable="true">Situação do uso</th>
+            <th data-field="destino" data-sortable="true">Destino</th>
+            <th data-field="kmfinal" data-sortable="true">@Html.DisplayNameFor(model => model.KmFinal)</th>
+            <th data-field="abastecimento" data-sortable="true">@Html.DisplayNameFor(model => model.Abastecimento)</th>
+            <th data-field="acoes" data-sortable="true">Ações</th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pessoa.Nome)
+                </td>
+                <td>
+                    @item.Veiculo.Placa - @Html.DisplayFor(modelItem => item.Veiculo.Modelo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VeiculoUtilizacaoStatus.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KmFinal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Abastecimento)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "AddOrUpdate", new { id = item.Id }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

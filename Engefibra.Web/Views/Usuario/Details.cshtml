@@ -1,29 +1,21 @@
 ﻿@model Engefibra.Data.Models.Usuario
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes de usuário";
 }
 
-<h2>Details</h2>
+<h2>Detalhes de usuário</h2>
 
 <div>
-    <h4>Usuario</h4>
-	<hr />
+    <h4>Usuário: @Model.Login</h4>
+    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Nome)
+            @Html.DisplayNameFor(model => model.Pessoa.Nome)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sobrenome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sobrenome)
+            @Html.DisplayFor(model => model.Pessoa.Nome)
         </dd>
 
         <dt>
@@ -35,19 +27,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Senha)
+            @Html.DisplayNameFor(model => model.Pessoa.CpfCnpj)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Senha)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CpfCnpj)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CpfCnpj)
+            @Html.DisplayFor(model => model.Pessoa.CpfCnpj)
         </dd>
 
         <dt>
@@ -77,6 +61,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "AddOrUpdate", new { id = Model.Id }, new { @class = "btn btn-success" }) |
+    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
 </p>

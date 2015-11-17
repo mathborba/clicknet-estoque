@@ -1,20 +1,28 @@
 ﻿@model Engefibra.Data.Models.Veiculo
-
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = Model.Id > 0 ? "Editar veiculo: " + Model.Placa : "Adicionar veiculo";
 }
+<h2>@ViewBag.Title</h2>
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("AddOrUpdate", "Veiculo"))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Veiculo</h4>
-        <hr />
+    <div class="form-horizontal well">
         @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        @if (Model.Id > 0)
+        {
+            <div class="alert alert-success">
+                <p><strong>Quilometragem atual do veiculo:</strong> @Model.KmAtual kms</p>
+            </div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.Placa, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Placa)
+                @Html.ValidationMessageFor(model => model.Placa)
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Modelo, new { @class = "control-label col-md-2" })
@@ -57,6 +65,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Observacao, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Observacao, new { @style = "width: 100%; height: 200px;" })
+                @Html.ValidationMessageFor(model => model.Observacao)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.AlertarManutencao, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AlertarManutencao)
@@ -73,7 +89,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.VeiculoAlertaId, "VeiculoAlertaId", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.VeiculoAlertaId, "Tipo do Alerta", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("VeiculoAlertaId", String.Empty)
                 @Html.ValidationMessageFor(model => model.VeiculoAlertaId)
@@ -82,14 +98,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Salvar" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="well">
+    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
 </div>
 
 @section Scripts {

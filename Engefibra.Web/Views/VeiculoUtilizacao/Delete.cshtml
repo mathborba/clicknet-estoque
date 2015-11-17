@@ -12,6 +12,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Pessoa.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pessoa.Nome)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Veiculo.Modelo)
         </dt>
 
@@ -20,11 +28,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NomeUtilizador)
+            @Html.DisplayNameFor(model => model.VeiculoUtilizacaoStatus.Nome)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NomeUtilizador)
+            @Html.DisplayFor(model => model.VeiculoUtilizacaoStatus.Nome)
         </dd>
 
         <dt>
@@ -44,11 +52,43 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Abastecimento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abastecimento)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.DataCriacao)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.DataCriacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataAlteracao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataAlteracao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioCriacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioCriacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioAlteracao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioAlteracao)
         </dd>
 
     </dl>

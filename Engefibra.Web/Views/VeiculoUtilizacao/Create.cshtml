@@ -1,73 +1,105 @@
 ﻿@model Engefibra.Data.Models.VeiculoUtilizacao
-
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = (Model.Id > 0 ? "Finalizar utilização do veiculo PLACA: " + Model.Veiculo.Placa : "Retirada de veiculo para uso");
 }
+<h2>@ViewBag.Title</h2>
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
+@if (Model.ExisteUtilizacao && Model.Id == 0)
+{
+    <div class="alert alert-danger">
+        Não é possivel utilizar dois veiculos ao mesmo tempo. Por favor, encerre a utilização em andamento com os dados corretos para utilizar outro veiculo.
+    </div>
+}
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>VeiculoUtilizacao</h4>
-        <hr />
+
+    <div class="form-horizontal well">
         @Html.ValidationSummary(true)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.VeiculoId, "VeiculoId", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("VeiculoId", String.Empty)
-                @Html.ValidationMessageFor(model => model.VeiculoId)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UsuarioCriacao)
+        @Html.HiddenFor(model => model.DataCriacao)
+        @if (Model.Id > 0)
+        {
+            <div class="alert alert-success">
+                <p>
+                    <strong>Veiculo utilizado:</strong> @Model.Veiculo.Placa - @Model.Veiculo.Modelo - @Model.Veiculo.AnoFabricacao <br />
+                    <strong>Kilometragem de retirada:</strong> @Model.Veiculo.KmAtual kms (Não é possivel encerrar a utilização com uma quilometragem inferior)<br />
+                    <strong>Utilizado no momento, por:</strong> @Model.Pessoa.Nome (@Model.Pessoa.CpfCnpj)
+                </p>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NomeUtilizador, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NomeUtilizador)
-                @Html.ValidationMessageFor(model => model.NomeUtilizador)
+            @Html.HiddenFor(model => model.PessoaId)
+            @Html.HiddenFor(model => model.VeiculoId)
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.VeiculoId, "Veiculo", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("VeiculoId", String.Empty)
+                    @Html.ValidationMessageFor(model => model.VeiculoId)
+                </div>
             </div>
-        </div>
 
+            <div class="form-group">
+                @Html.LabelFor(model => model.PessoaId, "Utilizador", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PessoaId", String.Empty)
+                    @Html.ValidationMessageFor(model => model.PessoaId)
+                </div>
+            </div>
+        }
         <div class="form-group">
-            @Html.LabelFor(model => model.Observacao, new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">
+                Destino
+            </label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Observacao)
                 @Html.ValidationMessageFor(model => model.Observacao)
             </div>
         </div>
 
+        @if (Model.Id == 0)
+        {
+            @Html.HiddenFor(model => model.KmFinal)
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.KmFinal, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.KmFinal)
+                    @Html.ValidationMessageFor(model => model.KmFinal)
+                </div>
+            </div>
+        }
         <div class="form-group">
-            @Html.LabelFor(model => model.KmFinal, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Abastecimento, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.KmFinal)
-                @Html.ValidationMessageFor(model => model.KmFinal)
+                @Html.EditorFor(model => model.Abastecimento)
+                @Html.ValidationMessageFor(model => model.Abastecimento)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DataCriacao, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.VeiculoUtilizacaoStatusId, "Situação do uso", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DataCriacao)
-                @Html.ValidationMessageFor(model => model.DataCriacao)
+                @Html.DropDownList("VeiculoUtilizacaoStatusId", String.Empty)
+                @Html.ValidationMessageFor(model => model.VeiculoUtilizacaoStatusId)
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                @if (!Model.ExisteUtilizacao)
+                {
+                    <input type="submit" value="Salvar" class="btn btn-success" />
+                }
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="well">
+    @Html.ActionLink("Voltar para a listagem", "Index", null, new { @class = "btn btn-primary" })
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

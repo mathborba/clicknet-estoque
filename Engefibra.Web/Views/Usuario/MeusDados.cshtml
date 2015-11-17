@@ -1,0 +1,42 @@
+﻿@model Engefibra.Data.Models.Usuario
+@{
+    ViewBag.Title = "Meus dados";
+}
+
+<h2>Meus dados</h2>
+
+<div class="alert alert-success">
+    Estes são seus dados cadastrais na Engefibra. Caso possua alguma discordância, entre em contato por <a href="~/Usuario/EmailDiretoria">aqui</a>
+</div>
+
+<table class="table table-bordered">
+    <tr>
+        <td>Nome Completo/Razão Social</td>
+        <td>@Model.Pessoa.Nome</td>
+    </tr>
+    <tr>
+        <td>Cpf/Cnpj</td>
+        <td>@Model.Pessoa.CpfCnpj</td>
+    </tr>
+    <tr>
+        <td>Rg/IE</td>
+        <td>@Model.Pessoa.RgIE</td>
+    </tr>
+    <tr>
+        <td>Pessoa Fisica?</td>
+        <td>@(Model.Pessoa.PessoaFisica ? "Sim" : "Não")</td>
+    </tr>
+    <tr>
+        <td>Usuário</td>
+        <td>@Model.Login</td>
+    </tr>
+    <tr>
+        <td>Senha</td>
+        <td><a class="btn btn-success" href="~/Usuario/AlterarSenha">Alterar</a></td>
+    </tr>
+    <tr>
+        <td>Data de Cadastro</td>
+        <td>@Model.DataCriacao</td>
+    </tr>
+</table>
+

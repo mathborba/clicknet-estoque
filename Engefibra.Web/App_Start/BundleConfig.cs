@@ -24,7 +24,8 @@ namespace Engefibra.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/jquery.toast.css"));
+                      "~/Content/jquery.toast.css",
+                      "~/Content/bootstrap-table.css"));
         }
     }
 }

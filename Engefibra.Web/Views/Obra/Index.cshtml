@@ -1,78 +1,83 @@
 ﻿@model IEnumerable<Engefibra.Data.Models.Obra>
-
 @{
     ViewBag.Title = "Obras";
 }
 
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-table.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-locale-all.js"></script>
+}
+
 <h2>Obras</h2>
-<p>Consulta/cadastro de Obras da empresa e seu estado atual</p>
-
+<p>Sistema de monitoramento, atualização e controle de obras</p>
 <p>
-    @Html.ActionLink("Nova obra", "Create", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Nova Obra", "AddOrUpdate", null, new { @class = "btn btn-success" })
 </p>
-
-<table class="table table-bordered table-striped table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            Situação
-        </th>
-        <th>
-            Grupo Notificação
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Endereco)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cep)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cidade)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataCriacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataAlteracao)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-hover" data-toggle="table" data-show-columns="true" data-search="true" data-show-refresh="true" data-show-toggle="true" data-pagination="true" data-show-filter="true">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ObraStatus.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notificacao.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Endereco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cep)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cidade)
-            </td>
-            <td>
-                @item.DataCriacao.ToString("dd/MM/yyyy")
-            </td>
-            <td>
-                @item.DataAlteracao.ToString("dd/MM/yyyy")
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
-            </td>
+            <th data-field="obra" data-sortable="true">
+                Obra
+            </th>
+            <th data-field="situacao" data-sortable="true">
+                Situação
+            </th>
+            <th data-field="cliente" data-sortable="true">
+                Cliente
+            </th>
+            <th data-field="encarregado" data-sortable="true">
+                Encarregado
+            </th>
+            <th data-field="grupo" data-sortable="true">
+                Grupo
+            </th>
+            <th data-field="endereco" data-sortable="true">
+                Endereço
+            </th>
+            <th data-field="ativo" data-sortable="true">
+                Ativo
+            </th>
+            <th data-field="datacadastro" data-sortable="true">
+                Data de Cadastro
+            </th>
+            <th data-field="acoes" data-sortable="true"></th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObraStatus.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Encarregado.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notificacao.Nome)
+                </td>
+                <td>
+                    @item.Endereco - @item.Cep - @item.Cidade
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ativo)
+                </td>
+                <td>
+                    @item.DataCriacao.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "AddOrUpdate", new { id = item.Id }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

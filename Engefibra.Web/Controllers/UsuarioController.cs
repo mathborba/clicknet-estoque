@@ -14,8 +14,6 @@ namespace Engefibra.Web.Controllers
 {
     public class UsuarioController : BaseController
     {
-        private AppContext db = new AppContext();
-
         #region .: Auth :.
         public ActionResult Login()
         {
@@ -46,14 +44,9 @@ namespace Engefibra.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var model = Bll.Usuario.Get(id.Value);
+            var model = Bll.Usuario.Get(id);
 
             if (model == null)
             {
@@ -63,93 +56,126 @@ namespace Engefibra.Web.Controllers
             return View(model);
         }
 
-        // GET: /Usuario/Create
-        public ActionResult Create()
+        public ActionResult AddOrUpdate(int id = 0)
+        {
+            var model = new Data.Models.Usuario();
+            if(id > 0)
+            {
+                model = Bll.Usuario.Get(id);
+            }
+            ViewBag.PessoaId = new SelectList(Bll.Pessoa.GetAll(), "Id", "Nome", model.PessoaId);
+
+            return View("Create", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddOrUpdate([Bind(Include="Id,PessoaId,Nome,Sobrenome,Login,Senha,CpfCnpj,Ativo,DataCriacao,UsuarioCriacao")] Usuario model)
+        {
+            if(model.Id > 0)
+            {
+                model.DataAlteracao = DateTime.Now;
+                model.UsuarioAlteracao = SessionManager.Current.ID;
+
+                if (ModelState.IsValid)
+                {
+                    Bll.Usuario.Alter(model);
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                model.DataCriacao = DateTime.Now;
+                model.DataAlteracao = DateTime.Now;
+                model.UsuarioCriacao = SessionManager.Current.ID;
+                model.UsuarioAlteracao = SessionManager.Current.ID;
+
+                if (ModelState.IsValid)
+                {
+                    Bll.Usuario.Add(model);
+                    return RedirectToAction("Index");
+                }
+            }
+
+            ViewBag.PessoaId = new SelectList(Bll.Pessoa.GetAll(), "Id", "Nome", model.PessoaId);
+            return View("Create", model);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            Usuario usuario = Bll.Usuario.Get(id);
+
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(usuario);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Bll.Usuario.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult MeusDados()
+        {
+            var usuario = Bll.Usuario.Get(SessionManager.Current.ID);
+            return View(usuario);
+        }
+
+        [HttpGet]
+        public ActionResult AlterarSenha()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,Nome,Sobrenome,Login,Senha,CpfCnpj,Ativo")] Usuario usuario)
+        public ActionResult AlterarSenha(string senhaAntiga, string senhaNova, string senhaConfirmacao)
         {
-            usuario.DataCriacao = DateTime.Now;
-            usuario.DataAlteracao = DateTime.Now;
+            var usuario = Bll.Usuario.Get(SessionManager.Current.ID);
 
-            if (ModelState.IsValid)
+            if(senhaAntiga == usuario.Senha)
             {
-                db.Usuario.Add(usuario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if(senhaNova == senhaConfirmacao)
+                {
+                    usuario.Senha = senhaNova;
+                    Bll.Usuario.Alter(usuario);
+                }
+                else
+                {
+                    return Json(new { senhaAlterada = false, Erro = "Nova senha e a sua confirmação não conferem, por favor, verifique!" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return Json(new { senhaAlterada = false, Erro = "Senha atual incorreta!" }, JsonRequestBehavior.AllowGet);
             }
 
-            return View(usuario);
+            return Json(new { senhaAlterada = true }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: /Usuario/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EmailDiretoria()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(usuario);
+            return View();
         }
 
-        // POST: /Usuario/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,Nome,Sobrenome,Login,Senha,CpfCnpj,Ativo,DataCriacao,DataAlteracao")] Usuario usuario)
+        public ActionResult EmailDiretoria(string assunto, string corpo)
         {
-            if (ModelState.IsValid)
+            if(assunto.IsNotNull() || corpo.IsNotNull())
             {
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(usuario);
-        }
+                var nomeEnviado = SessionManager.Current.Name;
+                Bll.Usuario.EmailDiretoria(nomeEnviado, assunto, corpo);
 
-        // GET: /Usuario/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Json(new { emailEnviado = true }, JsonRequestBehavior.AllowGet);
             }
-            Usuario usuario = db.Usuario.Find(id);
-            if (usuario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(usuario);
-        }
 
-        // POST: /Usuario/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Usuario usuario = db.Usuario.Find(id);
-            db.Usuario.Remove(usuario);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return Json(new { emailEnviado = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }

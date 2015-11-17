@@ -1,17 +1,19 @@
 ﻿@model Engefibra.Web.ViewModels.HomeViewModel
 @{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "Home";
 }
 
-<h1>Dashboard</h1>
+<h1>Bem-vindo(a), @Engefibra.Web.Framework.Session.SessionManager.Current.Name</h1>
 
-<div class="alert alert-success">
-    Bem-vindo(a) a Dashboard da Engefibra, para monitoramento de Obras, Estoque e Utilização dos veiculos da empresa. Para navegar, basta utilizar o menu acima para acessar as funcionalidades.
+<div class="alert alert-success alert-dismissable">
+    <p>Bem-vindo(a) ao Dashboard da <strong>Engefibra.</strong><br />
+    Esta plataforma é utilizada para monitoramento de obras, estoques e gerenciamento da utilização de manutenção/uso da frota da empresa. Para navegar, basta utilizar o menu acima para acessar as funcionalidades que são cabiveis ao seu trabalho. <br />
+    Qualquer dúvida, você pode entrar em contato com a diretoria <a href="~/Usuario/EmailDiretoria">neste link</a>. Bom trabalho a todos!</p>
 </div>
 
 <div class="row">
     <div class="col-md-6">
-        <h3>Ultimas Movimentações</h3>
+        <h3>Últimas movimentações</h3>
         @if (Model.Movimentacoes.Count() > 0)
         {
             <table class="table table-bordered">
@@ -26,7 +28,7 @@
                     @foreach (var item in Model.Movimentacoes)
                     {
                         <tr>
-                            <td>@item.Produto.Nome</td>
+                            <td>@item.Produto.Nome <a href="~/Produto/Details?id=@item.ProdutoId">(+ detalhes)</a></td>
                             <td>@item.Quantidade</td>
                             <td>@(item.MovimentoTipo == -1 ? "Saida" : "Entrada")</td>
                         </tr>
@@ -42,24 +44,24 @@
         }
     </div>
     <div class="col-md-6">
-        <h3>Ultimas Obras</h3>
+        <h3>Últimas obras</h3>
         @if (Model.Obras.Count() > 0)
         {
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td>Id</td>
                         <td>Nome</td>
+                        <td>Cliente</td>
                         <td>Cidade</td>
-                        <td>Status</td>
+                        <td>Situação</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Obras)
                     {
                         <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Nome</td>
+                            <td>@item.Nome <a href="~/Obra/AddOrUpdate/@item.Id">(+ detalhes)</a></td>
+                            <td>@item.Cliente.Nome</td>
                             <td>@item.Cidade</td>
                             <td>@item.ObraStatus.Nome</td>
                         </tr>
@@ -76,24 +78,26 @@
     </div>
     <div class="clearfix"></div>
     <div class="col-md-6">
-        <h3>Ultimos Produtos</h3>
+        <h3>Últimos produtos</h3>
         @if (Model.Produtos.Count() > 0)
         {
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td>Código</td>
+                        <td>Cód. Fornecedor</td>
                         <td>Nome</td>
                         <td>Fornecedor</td>
+                        <td>Saldo Atual</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Produtos)
                     {
                         <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Nome</td>
+                            <td>@item.CodFornecedor</td>
+                            <td>@item.Nome <a href="~/Produto/Details?id=@item.Id">(+ detalhes)</a></td>
                             <td>@item.Fornecedor</td>
+                            <td>@item.SaldoAtual</td>
                         </tr>
                     }
                 </tbody>
@@ -107,26 +111,26 @@
         }
     </div>
     <div class="col-md-6">
-        <h3>Ultimos Veiculos</h3>
-        @if (Model.Veiculo.Count() > 0)
+        <h3>Últimas utilizações de frota</h3>
+        @if (Model.VeiculoUtilizacao.Count() > 0)
         {
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td>Código</td>
-                        <td>Modelo</td>
-                        <td>Marca</td>
-                        <td>Cor</td>
+                        <td>Veiculo</td>
+                        <td>Motorista</td>
+                        <td>Status</td>
+                        <td>Destino</td>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Veiculo)
+                    @foreach (var item in Model.VeiculoUtilizacao)
                     {
                         <tr>
-                            <td>@item.Id</td>
-                            <td>@item.Modelo</td>
-                            <td>@item.Marca</td>
-                            <td>@item.Cor</td>
+                            <td>@item.Veiculo.Placa - @item.Veiculo.Modelo <a href="~/Veiculo/Details?id=@item.VeiculoId">(+ detalhes)</a></td>
+                            <td>@item.Pessoa.Nome</td>
+                            <td>@item.VeiculoUtilizacaoStatus.Nome</td>
+                            <td>@item.Observacao</td>
                         </tr>
                     }
                 </tbody>
@@ -135,7 +139,7 @@
         else
         {
             <div class="alert alert-warning">
-                Não existem veiculos cadastrados.
+                Não existem utilizações realizadas.
             </div>
         }
     </div>

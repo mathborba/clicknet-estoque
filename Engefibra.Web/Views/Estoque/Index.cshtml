@@ -4,6 +4,12 @@
     ViewBag.Title = "Cadastro de Estoques";
 }
 
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-table.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-locale-all.js"></script>
+}
+
 <h2>Estoques</h2>
 <p>Cadastro de estoques a serem controlados nas movimentações.</p>
 
@@ -11,32 +17,34 @@
     @Html.ActionLink("Novo registro", "Create", null, new { @class = "btn btn-success" })
 </p>
 
-<table class="table table-bordered table-striped table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-striped table-responsive" data-toggle="table" data-show-columns="true" data-search="true" data-show-refresh="true" data-show-toggle="true" data-pagination="true" data-show-filter="true">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ativo)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Remover", "Delete", new { id = item.Id })
-            </td>
+            <th data-field="nome" data-sortable="true">
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th data-field="ativo" data-sortable="true">
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th data-field="acoes">Ações</th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ativo)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

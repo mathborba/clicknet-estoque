@@ -3,7 +3,6 @@ using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartup(typeof(Engefibra.Web.Startup))]
-
 namespace Engefibra.Web
 {
     public class Startup
@@ -18,12 +17,16 @@ namespace Engefibra.Web
                 app.UseHangfireDashboard("/worker",
                     new DashboardOptions { AuthorizationFilters = new[] { new Filters.AcessHangfireFilter() } });
 
-                app.UseHangfireServer();
+                app.UseHangfireServer(new BackgroundJobServerOptions
+                {
+                    Queues = new[] { "obras", "veiculos", "sistema"}
+                });
+
+                // Load Hubs
+                Jobs.VeiculosHub.LoadWorkers();
+                Jobs.ObrasHub.LoadWorkers();
             }
-            catch
-            {
-                // Ele só deve ser executado depois que o Migrations rolar, ou seja, na segunda execução
-            }
+            catch { }
         }
     }
 }

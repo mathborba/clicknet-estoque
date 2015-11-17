@@ -1,14 +1,14 @@
 ﻿@model Engefibra.Data.Models.Veiculo
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes do veiculo - PLACA " + Model.Placa;
 }
 
-<h2>Details</h2>
-
+<h2>@ViewBag.Title</h2>
 <div>
-    <h4>Veiculo</h4>
-	<hr />
+    <div class="alert alert-success">
+        <p><strong>Quilometragem atual do veiculo:</strong> @Model.KmAtual kms</p>
+    </div>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.VeiculoAlerta.Nome)
@@ -76,7 +76,8 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+
+<p class="well">
+    @Html.ActionLink("Editar", "AddOrUpdate", new { id = Model.Id }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Voltar para veiculos", "Index", null, new { @class = "btn btn-primary" })
 </p>

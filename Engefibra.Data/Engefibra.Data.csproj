@@ -30,10 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -51,6 +53,10 @@
     <Compile Include="Migrations\201510211445040_Inicial.Designer.cs">
       <DependentUpon>201510211445040_Inicial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510281326439_Relatorios-Obra.cs" />
+    <Compile Include="Migrations\201510281326439_Relatorios-Obra.Designer.cs">
+      <DependentUpon>201510281326439_Relatorios-Obra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contato.cs" />
     <Compile Include="Models\EstoqueMovimento.cs" />
@@ -58,6 +64,9 @@
     <Compile Include="Models\Notificacao.cs" />
     <Compile Include="Models\NotificacaoAgendamento.cs" />
     <Compile Include="Models\NotificacaoTipo.cs" />
+    <Compile Include="Models\ObraBobinaDiario.cs" />
+    <Compile Include="Models\ObraGrampeamentoRegulacao.cs" />
+    <Compile Include="Models\ObraAtividadeDiaria.cs" />
     <Compile Include="Models\ObraNotificacao.cs" />
     <Compile Include="Models\VeiculoUtilizacaoStatus.cs" />
     <Compile Include="Models\ObraTipo.cs" />
@@ -84,6 +93,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510211445040_Inicial.resx">
       <DependentUpon>201510211445040_Inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510281326439_Relatorios-Obra.resx">
+      <DependentUpon>201510281326439_Relatorios-Obra.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,30 +1,25 @@
 ﻿@model Engefibra.Data.Models.Usuario
-
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Remover usuário: " + Model.Login;
 }
-
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h2>@ViewBag.Title</h2>
+<h3>Você tem certeza que deseja fazer isto?</h3>
 <div>
-    <h4>Usuario</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Nome)
+            @Html.DisplayNameFor(model => model.Pessoa.Nome)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Nome)
+            @Html.DisplayFor(model => model.Pessoa.Nome)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Sobrenome)
+            @Html.DisplayNameFor(model => model.Pessoa.Sobrenome)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Sobrenome)
+            @Html.DisplayFor(model => model.Pessoa.Sobrenome)
         </dd>
 
         <dt>
@@ -36,19 +31,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Senha)
+            @Html.DisplayNameFor(model => model.Pessoa.CpfCnpj)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Senha)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CpfCnpj)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CpfCnpj)
+            @Html.DisplayFor(model => model.Pessoa.CpfCnpj)
         </dd>
 
         <dt>
@@ -81,8 +68,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Remover" class="btn btn-danger" />
+            @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
         </div>
     }
 </div>

@@ -14,20 +14,24 @@ namespace Engefibra.Web.Controllers
 {
     public class ContatoController : BaseController
     {
-        private AppContext db = new AppContext();
-
+        /// <summary>
+        /// Listagem de Contatos
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
-            return View(db.Contato.ToList());
+            var model = Bll.Contato.GetAll();
+            return View(model);
         }
 
-        public ActionResult Details(int? id)
+        /// <summary>
+        /// Detalhamento do contato
+        /// </summary>
+        /// <param name="id">Identificador.</param>
+        /// <returns></returns>
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contato contato = db.Contato.Find(id);
+            Contato contato = Bll.Contato.Get(id);
             if (contato == null)
             {
                 return HttpNotFound();
@@ -35,17 +39,28 @@ namespace Engefibra.Web.Controllers
             return View(contato);
         }
 
+        /// <summary>
+        /// View para adição/edição de um contato
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <returns></returns>
         public ActionResult AddOrUpdate(int id = 0)
         {
             var model = new Data.Models.Contato();
+
             if(id > 0)
             {
-                model = db.Contato.Where(x => x.Id == id).FirstOrDefault();
+                model = Bll.Contato.Get(id);
             }
 
             return View("Create", model);
         }
 
+        /// <summary>
+        /// Adiciona/edita um contato no sistema
+        /// </summary>
+        /// <param name="contato">Dados do contato.</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddOrUpdate([Bind(Include="Id,Nome,Referencia,Telefone,Email,Observacao,Ativo,DataCriacao")] Contato contato)
@@ -57,9 +72,7 @@ namespace Engefibra.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    db.Entry(contato).State = EntityState.Modified;
-                    db.SaveChanges();
-
+                    Bll.Contato.Alter(contato);
                     return RedirectToAction("Index");
                 }
             }
@@ -72,8 +85,7 @@ namespace Engefibra.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    db.Contato.Add(contato);
-                    db.SaveChanges();
+                    Bll.Contato.Add(contato);
                     return RedirectToAction("Index");
                 }
             }
@@ -81,40 +93,34 @@ namespace Engefibra.Web.Controllers
             return View("Create", contato);
         }
 
-        public ActionResult Delete(int? id)
+        /// <summary>
+        /// View de confirmação de remoção
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <returns></returns>
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Contato contato = db.Contato.Find(id);
+            Contato contato = Bll.Contato.Get(id);
 
             if (contato == null)
             {
                 return HttpNotFound();
             }
+
             return View(contato);
         }
 
+        /// <summary>
+        /// Remover o contato
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Contato contato = db.Contato.Find(id);
-            db.Contato.Remove(contato);
-            db.SaveChanges();
-
+            Bll.Contato.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

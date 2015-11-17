@@ -3,7 +3,6 @@
     ViewBag.Title = (Model.Id > 0 ? "Editar produto" : "Novo Produto");
 }
 <h2>@ViewBag.Title</h2>
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -12,7 +11,9 @@
         <h4>Produto</h4>
         <hr />
         @Html.ValidationSummary(true)
-
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.DataCriacao)
+        @Html.HiddenFor(model => model.UsuarioCriacao)
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -60,7 +61,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-10 col-md-2">
                 <input type="submit" value="Salvar" class="btn btn-default" />
@@ -68,11 +68,9 @@
         </div>
     </div>
 }
-
 <div class="well">
     @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-primary" })
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

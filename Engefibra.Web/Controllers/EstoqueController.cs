@@ -13,36 +13,45 @@ namespace Engefibra.Web.Controllers
 {
     public class EstoqueController : BaseController
     {
-        private AppContext db = new AppContext();
-
+        /// <summary>
+        /// Listagem dos estoques cadastrados
+        /// </summary>
+        /// <returns></returns>
         [Filters.Access(false, "Administrador,Almoxarifado")]
         public ActionResult Index()
         {
-            return View(db.Estoque.ToList());
+            var model = Bll.Estoque.GetAll();
+            return View(model);
         }
 
-        public ActionResult Details(int? id)
+        /// <summary>
+        /// Detalhamento de estoque por identificador
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <returns></returns>
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Estoque estoque = db.Estoque.Find(id);
-
-            if (estoque == null)
-            {
+            var model = Bll.Estoque.Get(id);
+            if (model == null)
                 return HttpNotFound();
-            }
 
-            return View(estoque);
+            return View(model);
         }
 
+        /// <summary>
+        /// Retorna uma view para criação de um estoque
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Criação de um estoque no sistema
+        /// </summary>
+        /// <param name="estoque">Dados do estoque.</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include="Id,Nome,Ativo")] Estoque estoque)
@@ -52,78 +61,70 @@ namespace Engefibra.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Estoque.Add(estoque);
-                db.SaveChanges();
+                Bll.Estoque.Add(estoque);
                 return RedirectToAction("Index");
             }
 
             return View(estoque);
         }
 
-        public ActionResult Edit(int? id)
+        /// <summary>
+        /// Retorna view para edição do anuncio
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Estoque estoque = db.Estoque.Find(id);
-            if (estoque == null)
-            {
+            var model = Bll.Estoque.Get(id);
+            if (model == null)
                 return HttpNotFound();
-            }
-            return View(estoque);
+
+            return View(model);
         }
 
-        // POST: /Estoque/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Edita o estoque com os novos dados
+        /// </summary>
+        /// <param name="estoque">Estoque.</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include="Id,Nome,Ativo,DataCriacao,DataAlteracao")] Estoque estoque)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(estoque).State = EntityState.Modified;
-                db.SaveChanges();
+                Bll.Estoque.Alter(estoque);
                 return RedirectToAction("Index");
             }
             return View(estoque);
         }
 
-        // GET: /Estoque/Delete/5
-        public ActionResult Delete(int? id)
+        /// <summary>
+        /// Retorna uma view para confirmação da remoção do estoque
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <returns></returns>
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Estoque estoque = db.Estoque.Find(id);
-            if (estoque == null)
-            {
+            var model = Bll.Estoque.Get(id);
+
+            if (model == null)
                 return HttpNotFound();
-            }
-            return View(estoque);
+
+            return View(model);
         }
 
-        // POST: /Estoque/Delete/5
+        /// <summary>
+        /// Remove o estoque selecionado
+        /// </summary>
+        /// <param name="id">Identificador.</param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Estoque estoque = db.Estoque.Find(id);
-            db.Estoque.Remove(estoque);
-            db.SaveChanges();
+            Bll.Estoque.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

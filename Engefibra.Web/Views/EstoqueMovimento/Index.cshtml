@@ -4,6 +4,12 @@
     ViewBag.Title = "Index";
 }
 
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/bootstrap-table.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-filter.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap-table-locale-all.js"></script>
+}
+
 <h2>Movimentação de estoque</h2>
 <p>Consulta/realizar movimentação de produtos dentro de um determinado estoque</p>
 
@@ -11,50 +17,51 @@
     @Html.ActionLink("Novo registro", "Create", null, new { @class = "btn btn-success" })
 </p>
 
-<table class="table table-bordered table-striped table-responsive">
-    <tr>
-        <th>
-            Nome do Estoque
-        </th>
-        <th>
-            Produto
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MovimentoTipo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantidade)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataCriacao)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-bordered table-striped table-responsive" data-toggle="table" data-show-columns="true" data-search="true" data-show-refresh="true" data-show-toggle="true" data-pagination="true" data-show-filter="true">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estoque.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Produto.Nome)
-            </td>
-            <td>
-                @(item.MovimentoTipo == -1 ? "Retirada" : "Entrada")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantidade)
-            </td>
-            <td>
-                @item.DataCriacao.ToString("dd/MM/yyyy hh:mm")
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
-            </td>
+            <th data-field="Estoque" data-sortable="true">
+                Nome do Estoque
+            </th>
+            <th data-field="Produto" data-sortable="true">
+                Produto
+            </th>
+            <th data-field="MovimentoTipo" data-sortable="true">
+                @Html.DisplayNameFor(model => model.MovimentoTipo)
+            </th>
+            <th data-field="Quantidade" data-sortable="true">
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th data-field="DataCriacao" data-sortable="true">
+                @Html.DisplayNameFor(model => model.DataCriacao)
+            </th>
+            <th data-field="acoes" data-sortable="true">Açoes</th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estoque.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Produto.Nome)
+                </td>
+                <td>
+                    @(item.MovimentoTipo == -1 ? "Retirada" : "Entrada")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                    @item.DataCriacao.ToString("dd/MM/yyyy hh:mm")
+                </td>
+                <td>
+                    @Html.ActionLink("Ver Produto", "Details", "Produto", new { id = item.Id }, null) |
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

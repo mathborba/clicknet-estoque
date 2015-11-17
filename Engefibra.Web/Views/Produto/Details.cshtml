@@ -1,5 +1,4 @@
 ﻿@model Engefibra.Web.ViewModels.ProdutoViewModel
-
 @{
     ViewBag.Title = Model.Produto.Nome;
 }
@@ -10,64 +9,21 @@
     <h4>Detalhes do Produto</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Produto.Nome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Produto.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Produto.Marca)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Produto.Marca)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Produto.Fornecedor)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Produto.Fornecedor)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Produto.Observacao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Produto.Observacao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Produto.Ativo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Produto.Ativo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Produto.DataCriacao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Produto.DataCriacao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Produto.DataAlteracao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Produto.DataAlteracao)
-        </dd>
-        <dt>
-            Saldo atual do produto
-        </dt>
+        <dt>@Html.DisplayNameFor(model => model.Produto.Nome)</dt>
+        <dd>@Html.DisplayFor(model => model.Produto.Nome)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Produto.Marca)</dt>
+        <dd>@Html.DisplayFor(model => model.Produto.Marca)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Produto.Fornecedor)</dt>
+        <dd>@Html.DisplayFor(model => model.Produto.Fornecedor)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Produto.Observacao)</dt>
+        <dd>@Html.DisplayFor(model => model.Produto.Observacao)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Produto.Ativo)</dt>
+        <dd>@Html.DisplayFor(model => model.Produto.Ativo)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Produto.DataCriacao)</dt>
+        <dd>@Html.DisplayFor(model => model.Produto.DataCriacao)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Produto.DataAlteracao)</dt>
+        <dd>@Html.DisplayFor(model => model.Produto.DataAlteracao)</dd>
+        <dt>Saldo atual do produto</dt>
         <dd>
             @if (Model.SaldoProduto > 20)
             {
@@ -82,8 +38,35 @@
                 </div>
             }
         </dd>
-
     </dl>
+
+    <h4>Movimentações deste produto</h4>
+    @if (Model.Movimentacoes.Count() > 0)
+    {
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Estoque</th>
+                    <th>Tipo Movimentação</th>
+                    <th>Quantidade</th>
+                    <th>Data</th>
+                    <th>Usuário</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Movimentacoes)
+                {
+                    <tr>
+                        <td>@item.Estoque.Nome</td>
+                        <td>@(item.MovimentoTipo == -1 ? "Saida" : "Entrada")</td>
+                        <td>@item.Quantidade</td>
+                        <td>@item.DataCriacao.ToString("dd/MM/yyyy hh:mm:ss")</td>
+                        <td>@item.UsuarioCriacao</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.Produto.Id }, new { @class = "btn btn-success" }) |

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Engefibra.Data.Models;
 using Engefibra.Data.Context;
+using Engefibra.Web.Framework.Session;
 
 namespace Engefibra.Web.Controllers
 {
@@ -44,7 +45,7 @@ namespace Engefibra.Web.Controllers
                 model = db.Pessoa.Include(p => p.PessoaTipo).Where(x => x.Id == id).FirstOrDefault();
             }
 
-            ViewBag.PessoaTipoId = new SelectList(db.PessoaTipo, "Id", "Nome");
+            ViewBag.PessoaTipoId = new SelectList(db.PessoaTipo, "Id", "Nome", model.PessoaTipoId);
             return View("Create", model);
         }
 
@@ -55,6 +56,8 @@ namespace Engefibra.Web.Controllers
         {
             if (model.Id > 0)
             {
+                model.UsuarioAlteracao = SessionManager.Current.ID;
+
                 if (ModelState.IsValid)
                 {
                     db.Entry(model).State = EntityState.Modified;
@@ -64,6 +67,8 @@ namespace Engefibra.Web.Controllers
             }
             else
             {
+                model.UsuarioCriacao = SessionManager.Current.ID;
+
                 if (ModelState.IsValid)
                 {
                     db.Pessoa.Add(model);
@@ -73,7 +78,7 @@ namespace Engefibra.Web.Controllers
             }
 
             ViewBag.PessoaTipoId = new SelectList(db.PessoaTipo, "Id", "Nome", model.PessoaTipoId);
-            return View(model);
+            return View("Create", model);
         }
 
         public ActionResult Delete(int? id)

@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,10 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Entity\Pessoa.cs" />
+    <Compile Include="Entity\Contato.cs" />
+    <Compile Include="Entity\Estoque.cs" />
+    <Compile Include="Entity\VeiculoUtilizacao.cs" />
+    <Compile Include="Entity\Veiculo.cs" />
+    <Compile Include="Entity\Obra.cs" />
+    <Compile Include="Entity\Produto.cs" />
+    <Compile Include="Mailer\Mailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EstoqueMovimento.cs" />
-    <Compile Include="Usuario.cs" />
-    <Compile Include="UsuarioPerfil.cs" />
+    <Compile Include="Entity\EstoqueMovimento.cs" />
+    <Compile Include="Entity\Usuario.cs" />
+    <Compile Include="Entity\UsuarioPerfil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engefibra.Data\Engefibra.Data.csproj">

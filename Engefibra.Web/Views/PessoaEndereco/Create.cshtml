@@ -1,28 +1,40 @@
 ﻿@model Engefibra.Data.Models.PessoaEndereco
-
 @{
-    ViewBag.Title = "Create";
+    Layout = null;
 }
-
-<h2>Create</h2>
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Consulta de CEP automatizada
+        $("#CEP").keyup(function (e) {
+            console.log($(this).val().length);
+            var urlCepService = "http://cep.republicavirtual.com.br/web_cep.php";
+            if ($(this).val().length == 8) {
+                var cepValue = $(this).val();
+                $.ajax({
+                    url: urlCepService,
+                    data: { cep: cepValue, formato: "json" },
+                    type: 'GET',
+                    success: function (data) {
+                        if (data.resultado == 1) {
+                            $("#Logradouro").val(data.tipo_logradouro + " " + data.logradouro);
+                            $("#Cidade").val(data.cidade);
+                            $("#UF").val(data.uf);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>PessoaEndereco</h4>
-        <hr />
         @Html.ValidationSummary(true)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PessoaId, "PessoaId", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PessoaId", String.Empty)
-                @Html.ValidationMessageFor(model => model.PessoaId)
-            </div>
-        </div>
-
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.PessoaId)
+        @Html.HiddenFor(model => model.UsuarioCriacao)
         <div class="form-group">
             @Html.LabelFor(model => model.Referencia, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -34,7 +46,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CEP, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CEP)
+                @Html.TextBoxFor(model => model.CEP, new { @MaxLength = 8 })
                 @Html.ValidationMessageFor(model => model.CEP)
             </div>
         </div>
@@ -72,29 +84,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UsuarioCriacao, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UsuarioCriacao)
-                @Html.ValidationMessageFor(model => model.UsuarioCriacao)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UsuarioAlteracao, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UsuarioAlteracao)
-                @Html.ValidationMessageFor(model => model.UsuarioAlteracao)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-offset-10 col-md-2">
+                <input type="submit" value="Salvar" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

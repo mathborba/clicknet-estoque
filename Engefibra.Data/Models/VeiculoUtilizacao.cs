@@ -40,5 +40,8 @@ namespace Engefibra.Data.Models
         public int UsuarioCriacao { get; set; }
         [Display(Name = "Usuario Alteração")]
         public int UsuarioAlteracao { get; set; }
+
+        [NotMapped]
+        public bool ExisteUtilizacao { get; set; }
     }
 }

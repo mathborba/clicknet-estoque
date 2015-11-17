@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "EmailDiretoria";
+}
+
+<script type="text/javascript">
+    $(function () {
+        $(".frmContatoDirecao").submit(function (e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: '@Url.Action("EmailDiretoria", "Usuario")',
+                data: formData,
+                type: 'POST',
+                success: function (result) {
+                    if (result.emailEnviado) {
+                        $.toast({
+                            text: "E-mail enviado! Obrigado pela sua contribuição.",
+                            heading: 'Sucesso!',
+                            icon: 'success',
+                            showHideTransition: 'fade',
+                            allowToastClose: true,
+                            hideAfter: 3000,
+                            stack: 5,
+                            position: 'bottom-right',
+                            textAlign: 'left'
+                        });
+
+                        setTimeout(function () {
+                            location.href = '@Url.Action("Index","Home")';
+                        }, 700);
+                    } else {
+                        $.toast({
+                            text: "Falha na comunicação com o servidor de e-mails!",
+                            heading: 'Erro',
+                            icon: 'error',
+                            showHideTransition: 'fade',
+                            allowToastClose: true,
+                            hideAfter: 3000,
+                            stack: 5,
+                            position: 'bottom-right',
+                            textAlign: 'left'
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<h2>Enviar e-mail para a direção</h2>
+
+<div class="well">
+    <form class="frmContatoDirecao" role="form">
+        <div class="row">
+            <div class="col-xs-6 col-md-6 form-group">
+                <input class="form-control" id="name" name="assunto" placeholder="Assunto" type="text" required autofocus />
+            </div>
+        </div>
+        <textarea class="form-control" id="message" name="corpo" placeholder="Mensagem" rows="5"></textarea>
+        <br />
+        <button class="btn btn-success pull-right" type="submit">Enviar</button>
+    </form>
+    <div class="clearfix"></div>
+</div>

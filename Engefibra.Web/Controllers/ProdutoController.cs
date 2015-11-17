@@ -67,7 +67,7 @@ namespace Engefibra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,Nome,Marca,Fornecedor,Observacao,Ativo,DataCriacao")] Produto model)
+        public ActionResult AddOrUpdate([Bind(Include = "Id,Nome,Marca,Fornecedor,Observacao,Ativo,DataCriacao,UsuarioCriacao")] Produto model)
         {
             if (model.Id > 0)
             {

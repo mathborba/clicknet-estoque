@@ -13,129 +13,79 @@ namespace Engefibra.Web.Controllers
 {
     public class EstoqueMovimentoController : BaseController
     {
-        private AppContext db = new AppContext();
-
-        // GET: /EstoqueMovimento/
+        /// <summary>
+        /// Retorna a listagem de movimentações realizadas no sistema
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
-            var estoquemovimento = db.EstoqueMovimento.Include(e => e.Estoque).Include(e => e.Produto);
-            return View(estoquemovimento.ToList());
+            var model = Bll.EstoqueMovimento.GetAll(true);
+            return View(model);
         }
 
-        // GET: /EstoqueMovimento/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EstoqueMovimento estoquemovimento = db.EstoqueMovimento.Find(id);
-            if (estoquemovimento == null)
-            {
-                return HttpNotFound();
-            }
-            return View(estoquemovimento);
-        }
-
-        // GET: /EstoqueMovimento/Create
+        /// <summary>
+        /// Retorna uma view para criação da movimentação
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Create()
         {
-            ViewBag.EstoqueId = new SelectList(db.Estoque, "Id", "Nome");
-            ViewBag.ProdutoId = new SelectList(db.Produto, "Id", "Nome");
+            ViewBag.EstoqueId = new SelectList(Bll.Estoque.GetAll(), "Id", "Nome");
+            ViewBag.ProdutoId = new SelectList(Bll.Produto.GetAll(), "Id", "Nome");
             return View();
         }
 
-        // POST: /EstoqueMovimento/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        /// <summary>
+        /// Criar uma movimentação de estoque para um produto
+        /// </summary>
+        /// <param name="model">Dados da movimentação</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,EstoqueId,MovimentoTipo,ProdutoId,Quantidade,Ativo")] EstoqueMovimento estoquemovimento)
+        public ActionResult Create([Bind(Include="Id,EstoqueId,MovimentoTipo,ProdutoId,Quantidade,Ativo")] EstoqueMovimento model)
         {
-            estoquemovimento.DataCriacao = DateTime.Now;
-            estoquemovimento.DataAlteracao = DateTime.Now;
+            model.DataCriacao = DateTime.Now;
+            model.DataAlteracao = DateTime.Now;
 
             if (ModelState.IsValid)
             {
-                db.EstoqueMovimento.Add(estoquemovimento);
-                db.SaveChanges();
+                model.Ativo = true;
+                Bll.EstoqueMovimento.Add(model);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EstoqueId = new SelectList(db.Estoque, "Id", "Nome", estoquemovimento.EstoqueId);
-            ViewBag.ProdutoId = new SelectList(db.Produto, "Id", "Nome", estoquemovimento.ProdutoId);
+            ViewBag.EstoqueId = new SelectList(Bll.Estoque.GetAll(), "Id", "Nome", model.EstoqueId);
+            ViewBag.ProdutoId = new SelectList(Bll.Produto.GetAll(), "Id", "Nome", model.ProdutoId);
 
-            return View(estoquemovimento);
+            return View(model);
         }
 
-        // GET: /EstoqueMovimento/Edit/5
-        public ActionResult Edit(int? id)
+        /// <summary>
+        /// Tela para confirmar se irá deletar mesmo ou não a movimentação
+        /// </summary>
+        /// <param name="id">Identificador da movimentação</param>
+        /// <returns></returns>
+        [Filters.Access(false, "Administrador,Encarregado,Lider")]
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EstoqueMovimento estoquemovimento = db.EstoqueMovimento.Find(id);
-            if (estoquemovimento == null)
-            {
+            var model = Bll.EstoqueMovimento.Get(id);
+            if (model == null)
                 return HttpNotFound();
-            }
-            ViewBag.EstoqueId = new SelectList(db.Estoque, "Id", "Nome", estoquemovimento.EstoqueId);
-            ViewBag.ProdutoId = new SelectList(db.Produto, "Id", "Nome", estoquemovimento.ProdutoId);
-            return View(estoquemovimento);
+
+            return View(model);
         }
 
-        // POST: /EstoqueMovimento/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,EstoqueId,MovimentoTipo,ProdutoId,Quantidade,Ativo,DataCriacao,DataAlteracao")] EstoqueMovimento estoquemovimento)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(estoquemovimento).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.EstoqueId = new SelectList(db.Estoque, "Id", "Nome", estoquemovimento.EstoqueId);
-            ViewBag.ProdutoId = new SelectList(db.Produto, "Id", "Nome", estoquemovimento.ProdutoId);
-            return View(estoquemovimento);
-        }
-
-        // GET: /EstoqueMovimento/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EstoqueMovimento estoquemovimento = db.EstoqueMovimento.Find(id);
-            if (estoquemovimento == null)
-            {
-                return HttpNotFound();
-            }
-            return View(estoquemovimento);
-        }
-
-        // POST: /EstoqueMovimento/Delete/5
+        /// <summary>
+        /// Deleta a movimentação caso seja confirmada.
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            EstoqueMovimento estoquemovimento = db.EstoqueMovimento.Find(id);
-            db.EstoqueMovimento.Remove(estoquemovimento);
-            db.SaveChanges();
+            Bll.EstoqueMovimento.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

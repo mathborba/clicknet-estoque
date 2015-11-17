@@ -42,6 +42,9 @@ namespace Engefibra.Data.Context
         public DbSet<NotificacaoTipo> NotificacaoTipo { get; set; }
         public DbSet<Obra> Obra { get; set; }
         public DbSet<ObraNotificacao> ObraNotificacao { get; set; }
+        public DbSet<ObraAtividadeDiaria> ObraAtivividadeDiaria { get; set; }
+        public DbSet<ObraBobinaDiario> ObraBobinaDiario { get; set; }
+        public DbSet<ObraGrampeamentoRegulacao> ObraGrampeamentoRegulacao { get; set; }
         public DbSet<ObraStatus> ObraStatus { get; set; }
         public DbSet<ObraTipo> ObraTipo { get; set; }
         public DbSet<Perfil> Perfil { get; set; }

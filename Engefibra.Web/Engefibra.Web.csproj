@@ -39,12 +39,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ClosedXML">
+      <HintPath>..\packages\ClosedXML.0.76.0\lib\net40-client\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Hangfire.Core">
@@ -129,10 +134,7 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -160,12 +162,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\VeiculosHub.cs" />
+    <Compile Include="Jobs\ObrasHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ProdutoViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Email\Padrao.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bootstrap-table.css" />
+    <Content Include="Content\bootstrap-table.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\engefibra-logo.png" />
@@ -175,6 +184,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-table-export.js" />
+    <Content Include="Scripts\bootstrap-table-export.min.js" />
+    <Content Include="Scripts\bootstrap-table-filter.js" />
+    <Content Include="Scripts\bootstrap-table-filter.min.js" />
+    <Content Include="Scripts\bootstrap-table-locale-all.js" />
+    <Content Include="Scripts\bootstrap-table-locale-all.min.js" />
+    <Content Include="Scripts\bootstrap-table.js" />
+    <Content Include="Scripts\bootstrap-table.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\Engefibra.pubxml" />
@@ -187,7 +204,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -219,11 +238,6 @@
     <Content Include="Views\NotificacaoAgendamento\Details.cshtml" />
     <Content Include="Views\NotificacaoAgendamento\Edit.cshtml" />
     <Content Include="Views\NotificacaoAgendamento\Index.cshtml" />
-    <Content Include="Views\Obra\Create.cshtml" />
-    <Content Include="Views\Obra\Delete.cshtml" />
-    <Content Include="Views\Obra\Details.cshtml" />
-    <Content Include="Views\Obra\Edit.cshtml" />
-    <Content Include="Views\Obra\Index.cshtml" />
     <Content Include="Views\Produto\Create.cshtml" />
     <Content Include="Views\Produto\Delete.cshtml" />
     <Content Include="Views\Produto\Details.cshtml" />
@@ -231,7 +245,6 @@
     <Content Include="Views\Usuario\Create.cshtml" />
     <Content Include="Views\Usuario\Delete.cshtml" />
     <Content Include="Views\Usuario\Details.cshtml" />
-    <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\UsuarioPerfil\Create.cshtml" />
     <Content Include="Views\UsuarioPerfil\Delete.cshtml" />
@@ -239,18 +252,12 @@
     <Content Include="Views\Veiculo\Create.cshtml" />
     <Content Include="Views\Veiculo\Delete.cshtml" />
     <Content Include="Views\Veiculo\Details.cshtml" />
-    <Content Include="Views\Veiculo\Edit.cshtml" />
     <Content Include="Views\Veiculo\Index.cshtml" />
     <Content Include="Views\VeiculoAlerta\Create.cshtml" />
     <Content Include="Views\VeiculoAlerta\Delete.cshtml" />
     <Content Include="Views\VeiculoAlerta\Details.cshtml" />
     <Content Include="Views\VeiculoAlerta\Edit.cshtml" />
     <Content Include="Views\VeiculoAlerta\Index.cshtml" />
-    <Content Include="Views\VeiculoUtilizacao\Create.cshtml" />
-    <Content Include="Views\VeiculoUtilizacao\Delete.cshtml" />
-    <Content Include="Views\VeiculoUtilizacao\Details.cshtml" />
-    <Content Include="Views\VeiculoUtilizacao\Edit.cshtml" />
-    <Content Include="Views\VeiculoUtilizacao\Index.cshtml" />
     <Content Include="Views\VeiculoManutencaoHistorico\Create.cshtml" />
     <Content Include="Views\VeiculoManutencaoHistorico\Delete.cshtml" />
     <Content Include="Views\VeiculoManutencaoHistorico\Details.cshtml" />
@@ -258,7 +265,6 @@
     <Content Include="Views\VeiculoManutencaoHistorico\Index.cshtml" />
     <Content Include="Views\EstoqueMovimento\Create.cshtml" />
     <Content Include="Views\EstoqueMovimento\Delete.cshtml" />
-    <Content Include="Views\EstoqueMovimento\Details.cshtml" />
     <Content Include="Views\EstoqueMovimento\Index.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Usuario\Login.cshtml" />
@@ -269,6 +275,17 @@
     <Content Include="Views\PessoaContato\Index.cshtml" />
     <Content Include="Views\PessoaEndereco\Create.cshtml" />
     <Content Include="Views\PessoaEndereco\Index.cshtml" />
+    <Content Include="Views\Usuario\MeusDados.cshtml" />
+    <Content Include="Views\Usuario\AlterarSenha.cshtml" />
+    <Content Include="Views\Usuario\EmailDiretoria.cshtml" />
+    <Content Include="Views\VeiculoUtilizacao\Create.cshtml" />
+    <Content Include="Views\VeiculoUtilizacao\Delete.cshtml" />
+    <Content Include="Views\VeiculoUtilizacao\Details.cshtml" />
+    <Content Include="Views\VeiculoUtilizacao\Index.cshtml" />
+    <Content Include="Views\Obra\Create.cshtml" />
+    <Content Include="Views\Obra\Delete.cshtml" />
+    <Content Include="Views\Obra\Details.cshtml" />
+    <Content Include="Views\Obra\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engefibra.Bll\Engefibra.Bll.csproj">

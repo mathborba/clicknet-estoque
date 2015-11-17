@@ -37,7 +37,7 @@ namespace Engefibra.Web.Framework.Session
                 {
                     Guid guidCookieId = new Guid(cookieID.Value.Decrypt());
                     var userId = Convert.ToInt32(cookieUserID.Value.Decrypt());
-                    var perfis = cookiePerfis.Value.ToString().Split(',').ToArray();
+                    var perfis = cookiePerfis.Value.ToString().Decrypt().Split(',').ToArray();
 
                     userContext.Name = cookieName.Value.Decrypt();
                     userContext.ID = userId;
